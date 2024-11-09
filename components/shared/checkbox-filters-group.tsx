@@ -21,21 +21,39 @@ interface Props {
 
 export const CheckboxFiltersGroup: React.FC<Props> = ({
   title,
-  items,
-  defaultItems,
+  items = [],
+  defaultItems = [],
   limit = 5,
   searchInputPlaceholder = "Search...",
   className,
   onChange,
   defaultValue,
 }) => {
+  const [list, setList] = React.useState<FilterCheckboxProps[]>([]);
   const [showAll, setShowAll] = React.useState(false);
   const [selected, { add, toggle }] = useSet<string>(new Set([]));
+  const [searchValue, setSearchValue] = React.useState("");
+
+  React.useEffect(() => {
+    if (showAll) {
+      const filteredItems = items.filter(item =>
+        item.text.toLowerCase().includes(searchValue.toLowerCase())
+      );
+      setList(filteredItems);
+    } else {
+      const limitedItems = (defaultItems || items).slice(0, limit);
+      console.log(`list`, limitedItems);
+      setList(limitedItems);
+    }
+  }, [showAll, items, searchValue, defaultItems, limit]);
 
   const onCheckedChange = (value: string) => {
     toggle(value);
   };
 
+  const onSearchInput = (value: string) => {
+    setSearchValue(value);
+  };
   React.useEffect(() => {
     if (defaultValue) {
       defaultValue.forEach(add);
@@ -53,6 +71,7 @@ export const CheckboxFiltersGroup: React.FC<Props> = ({
       {showAll && (
         <div className="mb-5">
           <Input
+            onChange={e => onSearchInput(e.target.value)}
             placeholder={searchInputPlaceholder}
             className="bg-gray-50 border-none"
           />
@@ -60,7 +79,7 @@ export const CheckboxFiltersGroup: React.FC<Props> = ({
       )}
 
       <div className="flex flex-col gap-4 max-h-96 pr-2 overflow-auto scrollbar">
-        {(showAll ? items : defaultItems || items).map(item => (
+        {list.map(item => (
           <FilterCheckbox
             onCheckedChange={() => onCheckedChange(item.value)}
             checked={selected.has(item.value)}
@@ -75,7 +94,10 @@ export const CheckboxFiltersGroup: React.FC<Props> = ({
       {items.length > limit && (
         <div className={showAll ? "border-t border-t-neutral-100 mt-4" : ""}>
           <button
-            onClick={() => setShowAll(!showAll)}
+            onClick={() => {
+              setShowAll(!showAll);
+              setSearchValue("");
+            }}
             className="text-primary mt-3"
           >
             {showAll ? "Hide" : "+ Show all"}

@@ -14,6 +14,17 @@ const testIngredients = [
   { value: "Tomato", text: "Tomato" },
   { value: "Onion", text: "Onion" },
   { value: "Mushroom", text: "Mushroom" },
+  { value: "Pepperoni", text: "Pepperoni" },
+  { value: "Olives", text: "Olives" },
+  { value: "BellPepper", text: "Bell Pepper" },
+  { value: "Basil", text: "Basil" },
+  { value: "Pineapple", text: "Pineapple" },
+  { value: "Bacon", text: "Bacon" },
+  { value: "Sausage", text: "Sausage" },
+  { value: "Chicken", text: "Chicken" },
+  { value: "Spinach", text: "Spinach" },
+  { value: "Garlic", text: "Garlic" },
+  { value: "Artichoke", text: "Artichoke" },
 ];
 
 export const FIlters: React.FC<Props> = ({ className }) => {
