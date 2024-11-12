@@ -8,26 +8,37 @@ generator client {
   provider = "prisma-client-js"
 }
 
-enum Role {
-  USER
-  ADMIN
-}
+
 
 model User {
   id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+
+  cart Cart?
+  order Order[]
+  VarificationCode VarificationCode?
 
   fullName  String?
   email     String   @unique
   password  String
 
-  role      Role     @default(USER)
+  role      UserRole @default(USER)
+  provider String?
+  providerId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+}
+
+enum UserRole {
+  USER
+  ADMIN
 }
 
 model Category {
   id        Int      @id @default(autoincrement())
   name     String  @unique
+
   products Product[]
 
   createdAt DateTime @default(now())
@@ -39,7 +50,9 @@ model Product {
 
   name      String  
   imageUrl  String
+
   imgredients Ingredient[]  
+  items ProductItem[]
 
   category Category  @relation(fields: [categoryId], references: [id]) 
   categoryId Int
@@ -48,6 +61,23 @@ model Product {
   updatedAt DateTime @updatedAt   
 }
 
+model ProductItem {
+  id       Int      @id @default(autoincrement())
+  
+  price    Int
+  size     Int?
+  pizzaType Int?
+
+  cartItems CartItem[]
+
+  product Product  @relation(fields: [productId], references: [id]) 
+  productId Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+// вариация (у одного продукта много вариантов (ProductItem), но у варианта только один продукт)
+
 model Ingredient {
   id       Int      @id @default(autoincrement())
 
@@ -55,12 +85,93 @@ model Ingredient {
   price    Int
   imageUrl String
 
-  product Product[]  @relation(fields: [productId], references: [id]) 
+  product Product[]  
+  cartItems CartItem[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt  
 }
 
+model Cart {
+  id        Int      @id @default(autoincrement())
+
+  user      User?  @relation(fields: [userId], references: [id]) 
+  userId    Int? @unique
+
+  items     CartItem[]
+
+  token String
+
+  totalAmount Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt  
+}
+
+model CartItem {
+  id       Int      @id @default(autoincrement())
+
+  productItem ProductItem  @relation(fields: [productItemId], references: [id]) 
+  productItemId Int
+
+  cart      Cart?  @relation(fields: [cartId], references: [id]) 
+  cartId    Int?
+
+  quantity   Int
+
+  ingredients Ingredient[]
+  // доп ингридиенты *основные ингридиенты уже есть в продукте)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt   
+}
+
+model Order {
+  id       Int      @id @default(autoincrement())
+
+  user User? @relation(fields: [userId], references: [id])
+  userId Int?
+  
+  token String
+
+  totalAmount Int 
+  status OrderStatus
+  paymentId String?
+
+  items Json 
+
+  fullName String
+  email String
+  phone String
+  adress String
+  date String?
+  time String?
+  comment String?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt 
+}
+
+enum OrderStatus {
+  PENDING 
+  SUCCEEDED 
+  CANCELLED
+  }
+
+
+model VarificationCode {
+  id       Int      @id @default(autoincrement())
+
+  user User         @relation(fields: [userId], references: [id])
+  userId Int        @unique
+
+  code String
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, code])
+  // код уникальный для конкретного пользователя (два одинаковых кода на 1 пользователя не допускается)
+}
 
 
 // npx prisma db push
