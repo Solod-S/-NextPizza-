@@ -12,3 +12,4 @@ export async function POST(req: NextRequest) {
   const newUser = await prisma.user.create({ data });
   return NextResponse.json({ newUser });
 }
+
