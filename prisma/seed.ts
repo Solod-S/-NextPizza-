@@ -1,7 +1,8 @@
 // https://www.prisma.io/docs/orm/prisma-migrate/workflows/seeding
 // оздание тестовых данных
 
-import { PIZZAS, INGREDIENTS, PRODUCTS } from "./constants";
+import { Prisma } from "@prisma/client";
+import { CATEGORIES, INGREDIENTS, PRODUCTS } from "./constants";
 import { prisma } from "./prisma-client";
 import { hashSync } from "bcrypt";
 
@@ -9,7 +10,29 @@ const randomNumber = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min) + min);
 };
 
-// генерируем данные
+const generateProductItem = ({
+  productId,
+  pizzaType,
+  size,
+}: {
+  productId: number;
+  pizzaType?: 1 | 2;
+  size?: 20 | 30 | 40;
+}) => {
+  return {
+    productId,
+    size,
+    pizzaType,
+    price: randomNumber(10, 30),
+    // carbs: randomNumber(10, 30),
+    // fats: randomNumber(5, 15),
+    // kcal: randomNumber(180, 300),
+    // proteins: randomNumber(20, 45),
+    // weight: randomNumber(400, 650),
+  } as Prisma.ProductItemUncheckedCreateInput;
+};
+
+// создаем данные
 async function up() {
   await prisma.user.createMany({
     data: [
@@ -30,25 +53,29 @@ async function up() {
     ],
   });
 
-  await prisma.category.createMany({ data: PIZZAS });
-  await prisma.ingredient.createMany({ data: INGREDIENTS });
-  await prisma.product.createMany({ data: PRODUCTS });
+  // генерируем категории
+  await prisma.category.createMany({ data: CATEGORIES });
 
+  // генерируем ингредиенты
+  await prisma.ingredient.createMany({ data: INGREDIENTS });
+
+  // генерируем продукты
+  await prisma.product.createMany({ data: PRODUCTS });
   const pizza1 = await prisma.product.create({
     data: {
-      name: "Test Pizza 1",
+      name: "Cheese Joy",
       imageUrl:
-        "https://media.dodostatic.net/image/r:233x233/11EE7D61304FAF5A98A6958F2BB2D260.webp",
+        "https://media.dodostatic.net/image/r:292x292/11EE7D610D2925109AB2E1C92CC5383C.avif",
       categoryId: 1,
       ingredients: {
         connect: INGREDIENTS.slice(0, 5),
+        // connect: [{ id: 1 }, { id: 2 }, { id: 3 }],
       },
     },
   });
-
   const pizza2 = await prisma.product.create({
     data: {
-      name: "Test Pizza 2",
+      name: "Pepperoni fresh",
       imageUrl:
         "https://media.dodostatic.net/image/r:233x233/11EE7D610CF7E265B7C72BE5AE757CA7.webp",
       categoryId: 1,
@@ -57,12 +84,11 @@ async function up() {
       },
     },
   });
-
   const pizza3 = await prisma.product.create({
     data: {
-      name: "Test Pizza 3",
+      name: "Ham and cheese",
       imageUrl:
-        "https://media.dodostatic.net/image/r:233x233/11EE7D610CF7E265B7C72BE5AE757CA7.webp",
+        "https://media.dodostatic.net/image/r:292x292/11EE7D60FDA22358AC33C6A44EB093A2.avif",
       categoryId: 1,
       ingredients: {
         connect: INGREDIENTS.slice(10, 15),
@@ -70,17 +96,95 @@ async function up() {
     },
   });
 
-  await prisma.productItem.createMany({ data: [] });
+  // генерируем разновидности продукта (цена, размер...)
+  await prisma.productItem.createMany({
+    data: [
+      generateProductItem({ productId: pizza1.id, pizzaType: 1, size: 20 }),
+      generateProductItem({ productId: pizza1.id, pizzaType: 2, size: 30 }),
+      generateProductItem({ productId: pizza1.id, pizzaType: 2, size: 40 }),
+      {
+        productId: pizza2.id,
+        pizzaType: 1,
+        size: 20,
+        price: randomNumber(10, 20),
+      },
+      {
+        productId: pizza2.id,
+        pizzaType: 2,
+        size: 30,
+        price: randomNumber(20, 29),
+      },
+      {
+        productId: pizza2.id,
+        pizzaType: 2,
+        size: 40,
+        price: randomNumber(29, 30),
+      },
+      {
+        productId: pizza3.id,
+        pizzaType: 1,
+        size: 20,
+        price: randomNumber(10, 20),
+      },
+      {
+        productId: pizza3.id,
+        pizzaType: 2,
+        size: 30,
+        price: randomNumber(20, 29),
+      },
+      {
+        productId: pizza3.id,
+        pizzaType: 2,
+        size: 30,
+        price: randomNumber(29, 30),
+      },
+
+      // остальные продукты
+
+      generateProductItem({ productId: 1 }),
+      generateProductItem({ productId: 2 }),
+      generateProductItem({ productId: 3 }),
+      generateProductItem({ productId: 4 }),
+      generateProductItem({ productId: 5 }),
+    ],
+  });
+
+  // генерируем корзины
+  await prisma.cart.createMany({
+    data: [
+      { userId: 1, totalAmount: 0, token: "dghdf22hgggg3" },
+      { userId: 2, totalAmount: 0, token: "dfshdf22hghg3" },
+    ],
+  });
+
+  // генерируем айтемы корзин
+  await prisma.cartItem.create({
+    data: {
+      cartId: 1,
+      productItemId: 6,
+      quantity: 2,
+      ingredients: {
+        connect: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }],
+      },
+    },
+  });
 }
 
 // очищаем данные
 async function down() {
   await prisma.$executeRaw`TRUNCATE TABLE "User" RESTART IDENTITY CASCADE`;
+  await prisma.$executeRaw`TRUNCATE TABLE "Category" RESTART IDENTITY CASCADE`;
+  await prisma.$executeRaw`TRUNCATE TABLE "Cart" RESTART IDENTITY CASCADE;`;
+  await prisma.$executeRaw`TRUNCATE TABLE "CartItem" RESTART IDENTITY CASCADE;`;
+  await prisma.$executeRaw`TRUNCATE TABLE "Product" RESTART IDENTITY CASCADE`;
+  await prisma.$executeRaw`TRUNCATE TABLE "ProductItem" RESTART IDENTITY CASCADE`;
+  await prisma.$executeRaw`TRUNCATE TABLE "Ingredient" RESTART IDENTITY CASCADE;`;
 }
 
 async function main() {
   await down();
   await up();
+
   try {
   } catch (error) {
     console.log(`Error in async function main:`, error);

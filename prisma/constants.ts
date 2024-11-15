@@ -1,4 +1,4 @@
-export const PIZZAS = [
+export const CATEGORIES = [
   { name: "Pizzas" },
   { name: "Breakfast" },
   { name: "Snacks" },
@@ -115,20 +115,20 @@ export const INGREDIENTS = [
     imageUrl:
       "https://cdn.dodostatic.net/static/Img/Ingredients/b2f3a5d5afe44516a93cfc0d2ee60088.png",
   },
-].map((object, index) => ({ id: index, ...object }));
+].map((object, index) => ({ id: index + 1, ...object }));
 
 export const PRODUCTS = [
   {
     name: "Roll with ham",
     imageUrl:
       "https://media.dodostatic.net/image/r:584x584/11EE7970259D888E98B6407EE6B994D9.avif",
-    categoryId: 1,
+    categoryId: 2,
   },
   {
     name: "Cheesecakes with condensed milk",
     imageUrl:
       "https://media.dodostatic.net/image/r:584x584/11EF90613992FBC69C3DD4772681C783.avif",
-    categoryId: 2,
+    categoryId: 3,
   },
   {
     name: "Caesar salad",
@@ -136,7 +136,20 @@ export const PRODUCTS = [
       "https://media.dodostatic.net/image/r:584x584/11EF8D3BC9E84FB7B5CFB7F47C6FB334.avif",
     categoryId: 3,
   },
-].map((object, i) => ({ id: i, ...object }));
+  {
+    name: "Chocolate Milkshake",
+    imageUrl:
+      "https://media.dodostatic.net/image/r:292x292/11EE796FA24D1E919FA050D8BA21F8E9.avif",
+    categoryId: 4,
+  },
+  {
+    name: "Orange juice",
+    imageUrl:
+      "https://media.dodostatic.net/image/r:292x292/11EE7D61B223E75EB71498BCAA0D4A0D.avif",
+    categoryId: 5,
+  },
+];
+// .map((object, i) => ({ id: i, ...object }));
 
 // export const PIZZAS = [
 //   {
