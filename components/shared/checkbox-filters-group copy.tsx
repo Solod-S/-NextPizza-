@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { useSet } from "react-use";
 
 import { FilterCheckbox, FilterCheckboxProps } from "./filter-checkbox";
 import { Input } from "../ui/input";
@@ -16,6 +17,8 @@ interface Props {
   loading?: boolean;
   searchInputPlaceholder?: string;
   className?: string;
+  onChange?: (values: string[]) => void;
+  defaultValue?: string[];
   onClickCheckbox?: (id: string) => void;
   selectedIds?: Set<string>;
 }
@@ -28,11 +31,14 @@ export const CheckboxFiltersGroup: React.FC<Props> = ({
   loading,
   searchInputPlaceholder = "Search...",
   className,
+  onChange,
   selectedIds,
   onClickCheckbox,
+  defaultValue,
 }) => {
   const [list, setList] = useState<FilterCheckboxProps[]>([]);
   const [showAll, setShowAll] = useState(false);
+  const [selected, { add, toggle }] = useSet<string>(new Set([]));
   const [searchValue, setSearchValue] = useState("");
 
   useEffect(() => {
@@ -48,9 +54,23 @@ export const CheckboxFiltersGroup: React.FC<Props> = ({
     }
   }, [showAll, items, searchValue, defaultItems, limit]);
 
+  const onCheckedChange = (value: string) => {
+    toggle(value);
+  };
+
   const onSearchInput = (value: string) => {
     setSearchValue(value);
   };
+
+  useEffect(() => {
+    if (defaultValue) {
+      defaultValue.forEach(add);
+    }
+  }, [defaultValue?.length]);
+
+  useEffect(() => {
+    onChange?.(Array.from(selected));
+  }, [selected]);
 
   if (loading) {
     return (
@@ -82,8 +102,8 @@ export const CheckboxFiltersGroup: React.FC<Props> = ({
       <div className="flex flex-col gap-4 max-h-96 pr-2 overflow-auto scrollbar">
         {list.map(item => (
           <FilterCheckbox
-            onCheckedChange={() => onClickCheckbox?.(item.value)}
-            checked={selectedIds?.has(item.value)}
+            onCheckedChange={() => onCheckedChange(item.value)}
+            checked={selected.has(item.value)}
             key={String(item.value)}
             value={item.value}
             text={item.text}
