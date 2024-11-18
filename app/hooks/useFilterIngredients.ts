@@ -8,15 +8,15 @@ import { useSet } from "react-use";
 interface ReturnedProps {
   ingredients: Ingredient[];
   loading: boolean;
-  selectedIds: Set<string>;
+  selectedIngredients: Set<string>;
   onAddId: (id: string) => void;
 }
 
-export const useFilterIngredients = (): ReturnedProps => {
+export const useFilterIngredients = (values: string[] = []): ReturnedProps => {
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
   const [loading, setLoading] = useState(false);
 
-  const [selectedIds, { toggle }] = useSet(new Set<string>([]));
+  const [selectedIngredients, { toggle }] = useSet(new Set<string>(values));
   useEffect(() => {
     const fetchIngredients = async () => {
       try {
@@ -32,5 +32,21 @@ export const useFilterIngredients = (): ReturnedProps => {
     fetchIngredients();
   }, []);
 
-  return { ingredients, loading, onAddId: toggle, selectedIds };
+  const setSelectedIngredients = (items: string[]) => {
+    items.forEach(item => {
+      // if (selectedIngredients.has(item)) {
+      //   selectedIngredients.delete(item);
+      // } else {
+      //   selectedIngredients.add(item);
+      // }
+      selectedIngredients.add(item);
+    });
+  };
+
+  return {
+    ingredients,
+    loading,
+    onAddId: toggle,
+    selectedIngredients,
+  };
 };
