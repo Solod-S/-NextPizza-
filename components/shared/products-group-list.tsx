@@ -9,6 +9,7 @@ import { useCategoryStore } from "@/store/category";
 
 interface Props {
   title: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   items: any[];
   categoryId: number;
   className?: string;
@@ -33,7 +34,7 @@ export const ProductsGroupList: React.FC<Props> = ({
       console.log(categoryId + " is categoryId");
       setActiveCategoryId(categoryId);
     }
-  }, [categoryId, intersection?.isIntersecting, setActiveCategoryId]);
+  }, [categoryId, intersection?.isIntersecting, setActiveCategoryId, title]);
   return (
     <div className={className} id={title} ref={intersectionRef}>
       <Title text={title} size="lg" className="font-extralight mb-5" />
