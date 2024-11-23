@@ -13,11 +13,14 @@ export default async function ProductPage({
 }: {
   params: { id: string };
 }) {
-  const product = await prisma.product.findFirst({ where: { id: Number(id) } });
+  const product = await prisma.product.findFirst({
+    where: { id: Number(id) },
+  });
 
   if (!product) {
     return notFound();
   }
+  // return <h1>!!</h1>;
 
   return (
     <Container className="flex flex-col my-10">
