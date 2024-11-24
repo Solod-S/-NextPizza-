@@ -4,7 +4,7 @@ import {
   Title,
   FIlters,
   ProductsGroupList,
-} from "@/components/shared";
+} from "@/app/components/shared";
 import { prisma } from "@/prisma/prisma-client";
 
 export default async function Home() {

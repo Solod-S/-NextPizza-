@@ -1,6 +1,5 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 import React from "react";
-import { ProductImage } from "./product-image";
 import { Title } from "./title";
 import { Button } from "../ui";
 
@@ -8,8 +7,6 @@ interface Props {
   imageUrl: string;
   name: string;
   className?: string;
-  ingredients: any;
-  items?: any;
   onClickAdd: VoidFunction;
 }
 
@@ -17,8 +14,6 @@ export const ChooseProductForm: React.FC<Props> = ({
   imageUrl,
   name,
   className,
-  ingredients,
-  items,
   onClickAdd,
 }) => {
   const totalPrice = 10;
