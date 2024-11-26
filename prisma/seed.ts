@@ -19,11 +19,29 @@ const generateProductItem = ({
   pizzaType?: 1 | 2;
   size?: 20 | 30 | 40;
 }) => {
+  let price = 10;
+  switch (true) {
+    case size === 20:
+      price = randomNumber(10, 15);
+      break;
+
+    case size === 30:
+      price = randomNumber(15, 20);
+      break;
+
+    case size === 40:
+      price = randomNumber(20, 30);
+      break;
+
+    default:
+      break;
+  }
+
   return {
     productId,
     size,
     pizzaType,
-    price: randomNumber(10, 30),
+    price,
     // carbs: randomNumber(10, 30),
     // fats: randomNumber(5, 15),
     // kcal: randomNumber(180, 300),
@@ -100,44 +118,83 @@ async function up() {
   await prisma.productItem.createMany({
     data: [
       generateProductItem({ productId: pizza1.id, pizzaType: 1, size: 20 }),
+      generateProductItem({ productId: pizza1.id, pizzaType: 1, size: 30 }),
+      generateProductItem({ productId: pizza1.id, pizzaType: 1, size: 40 }),
+      generateProductItem({ productId: pizza1.id, pizzaType: 2, size: 20 }),
       generateProductItem({ productId: pizza1.id, pizzaType: 2, size: 30 }),
       generateProductItem({ productId: pizza1.id, pizzaType: 2, size: 40 }),
       {
         productId: pizza2.id,
         pizzaType: 1,
         size: 20,
-        price: randomNumber(10, 20),
+        price: randomNumber(10, 15),
+      },
+      {
+        productId: pizza2.id,
+        pizzaType: 1,
+        size: 30,
+        price: randomNumber(15, 20),
+      },
+      {
+        productId: pizza2.id,
+        pizzaType: 1,
+        size: 40,
+        price: randomNumber(20, 30),
+      },
+      {
+        productId: pizza2.id,
+        pizzaType: 2,
+        size: 20,
+        price: randomNumber(10, 15),
       },
       {
         productId: pizza2.id,
         pizzaType: 2,
         size: 30,
-        price: randomNumber(20, 29),
+        price: randomNumber(15, 20),
       },
       {
         productId: pizza2.id,
         pizzaType: 2,
         size: 40,
-        price: randomNumber(29, 30),
+        price: randomNumber(20, 30),
       },
       {
         productId: pizza3.id,
         pizzaType: 1,
         size: 20,
-        price: randomNumber(10, 20),
+        price: randomNumber(10, 15),
+      },
+      {
+        productId: pizza3.id,
+        pizzaType: 1,
+        size: 30,
+        price: randomNumber(15, 20),
+      },
+      {
+        productId: pizza3.id,
+        pizzaType: 1,
+        size: 40,
+        price: randomNumber(20, 30),
+      },
+      {
+        productId: pizza3.id,
+        pizzaType: 2,
+        size: 20,
+        price: randomNumber(10, 15),
       },
       {
         productId: pizza3.id,
         pizzaType: 2,
         size: 30,
-        price: randomNumber(20, 29),
+        price: randomNumber(15, 20),
       },
-      {
-        productId: pizza3.id,
-        pizzaType: 2,
-        size: 30,
-        price: randomNumber(29, 30),
-      },
+      // {
+      //   productId: pizza3.id,
+      //   pizzaType: 2,
+      //   size: 40,
+      //   price: randomNumber(20, 30),
+      // },
 
       // остальные продукты
 

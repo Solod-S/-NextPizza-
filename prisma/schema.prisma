@@ -83,7 +83,7 @@ model Ingredient {
   id       Int      @id @default(autoincrement())
 
   name     String  
-  price    Int
+  price    Float 
   imageUrl String
 
   product Product[]  
