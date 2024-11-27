@@ -1,20 +1,14 @@
 "use client";
-import { cn, roundMoney } from "@/shared/lib/utils";
-import React, { useEffect, useState } from "react";
-import { useSet } from "react-use";
+import { cn } from "@/shared/lib/utils";
+import React from "react";
 import { Ingredient, ProductItem } from "@prisma/client";
 import { PizzaImage } from "./pizza-image";
 import { Title } from "./title";
 import { Button } from "../ui";
-import {
-  mapPizzaType,
-  PizzaSize,
-  pizzaSizes,
-  PizzaType,
-  pizzaTypes,
-} from "@/shared/constants/pizza";
+import { PizzaSize, PizzaType, pizzaTypes } from "@/shared/constants/pizza";
 import { GroupVariants } from "./group-variants";
 import { IngredientItem } from "./ingredient-item";
+import { getPizzaDetails, usePizzaOptions } from "@/shared/lib";
 
 interface Props {
   imageUrl: string;
@@ -33,50 +27,29 @@ export const ChoosePizzaForm: React.FC<Props> = ({
   items,
   onClickAddCart,
 }) => {
-  const [size, setSize] = useState<PizzaSize>(20);
-  const [type, setType] = useState<PizzaType>(1);
+  const {
+    size,
+    type,
+    selectedIngredients,
+    availablePizzaSizes,
+    setSize,
+    setType,
+    addIngredient,
+  } = usePizzaOptions(items);
 
-  const [selectedIngredients, { toggle: addIngredient }] = useSet(
-    new Set<number>([])
+  const { totalPrice, textDetails } = getPizzaDetails(
+    type,
+    size,
+    items,
+    ingredients,
+    selectedIngredients
   );
 
-  let textDetails = `${size} sm, ${mapPizzaType[type]} pizza`;
-  if (selectedIngredients.size > 0)
-    textDetails += `, ingredients (${selectedIngredients.size})`;
-
-  const pizzaPrice =
-    items.find(item => item.pizzaType === type && item.size === size)?.price ||
-    0;
-
-  const totalIngredientsPrice = ingredients
-    .filter(item => selectedIngredients.has(item.id))
-    .reduce((acc, ingredient) => acc + ingredient.price, 0);
-
-  const totalPrice = roundMoney(pizzaPrice + totalIngredientsPrice);
   const handleOnClick = () => {
     onClickAddCart?.();
     console.log({ size, type, ingredients: selectedIngredients });
   };
 
-  // исключаем по типу теста (traditional и thin)
-  const availablePizza = items.filter(item => item.pizzaType === type);
-  // делаем статус дисейблед тому чего нету
-  const availablePizzaSizes = pizzaSizes.map(item => ({
-    name: item.name,
-    value: item.value,
-    disabled: !availablePizza.some(
-      pizza => Number(pizza.size) === Number(item.value)
-    ),
-  }));
-  useEffect(() => {
-    const currentSizeIsDisabled = availablePizzaSizes?.find(
-      item => Number(item.value) === size && !item.disabled
-    );
-    const availableSize = availablePizzaSizes?.find(item => !item.disabled);
-    if (availableSize && !currentSizeIsDisabled) {
-      setSize(Number(availableSize.value) as PizzaSize);
-    }
-  }, [availablePizzaSizes, type]);
   return (
     <div className={cn(className, "flex flex-1")}>
       <PizzaImage imageUrl={imageUrl} size={size} />
