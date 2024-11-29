@@ -1,4 +1,5 @@
 "use client";
+
 import { cn } from "@/shared/lib/utils";
 import React from "react";
 import { Ingredient, ProductItem } from "@prisma/client";
