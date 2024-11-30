@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
+// import Image from "next/image";
 import Link from "next/link";
 import { Button } from "../ui";
 import { ArrowRight } from "lucide-react";
@@ -14,6 +14,8 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { CartDrawerItem } from "./cart-drawer-item";
+import { getCartItemDetails } from "@/shared/lib";
 
 interface Props {
   className?: string;
@@ -33,7 +35,145 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({
               Cart <span className="font-bolt">3 items</span>
             </SheetTitle>
           </SheetHeader>
+
           {/* Items */}
+          <div className="-mx-6 mt-5 overflow-auto scrollbar flex-1">
+            <div className="mt-2">
+              <CartDrawerItem
+                id={0}
+                imageUrl={
+                  "https://media.dodostatic.net/image/r:292x292/11EE7D610D2925109AB2E1C92CC5383C.avif"
+                }
+                details={getCartItemDetails(2, 30, [
+                  { name: "Cheese" },
+                  { name: "Bacon" },
+                ])}
+                name={"Cheese Joy"}
+                price={24}
+                quantity={3}
+              />
+            </div>
+            <div className="mt-2">
+              <CartDrawerItem
+                id={0}
+                imageUrl={
+                  "https://media.dodostatic.net/image/r:292x292/11EE7D610D2925109AB2E1C92CC5383C.avif"
+                }
+                details={getCartItemDetails(2, 30, [
+                  { name: "Cheese" },
+                  { name: "Bacon" },
+                ])}
+                name={"Cheese Joy"}
+                price={24}
+                quantity={3}
+              />
+            </div>
+            <div className="mt-2">
+              <CartDrawerItem
+                id={0}
+                imageUrl={
+                  "https://media.dodostatic.net/image/r:292x292/11EE7D610D2925109AB2E1C92CC5383C.avif"
+                }
+                details={getCartItemDetails(2, 30, [
+                  { name: "Cheese" },
+                  { name: "Bacon" },
+                ])}
+                name={"Cheese Joy"}
+                price={24}
+                quantity={3}
+              />
+            </div>
+            <div className="mt-2">
+              <CartDrawerItem
+                id={0}
+                imageUrl={
+                  "https://media.dodostatic.net/image/r:292x292/11EE7D610D2925109AB2E1C92CC5383C.avif"
+                }
+                details={getCartItemDetails(2, 30, [
+                  { name: "Cheese" },
+                  { name: "Bacon" },
+                ])}
+                name={"Cheese Joy"}
+                price={24}
+                quantity={3}
+              />
+            </div>
+            <div className="mt-2">
+              <CartDrawerItem
+                id={0}
+                imageUrl={
+                  "https://media.dodostatic.net/image/r:292x292/11EE7D610D2925109AB2E1C92CC5383C.avif"
+                }
+                details={getCartItemDetails(2, 30, [
+                  { name: "Cheese" },
+                  { name: "Bacon" },
+                ])}
+                name={"Cheese Joy"}
+                price={24}
+                quantity={3}
+              />
+            </div>
+            <div className="mt-2">
+              <CartDrawerItem
+                id={0}
+                imageUrl={
+                  "https://media.dodostatic.net/image/r:292x292/11EE7D610D2925109AB2E1C92CC5383C.avif"
+                }
+                details={getCartItemDetails(2, 30, [
+                  { name: "Cheese" },
+                  { name: "Bacon" },
+                ])}
+                name={"Cheese Joy"}
+                price={24}
+                quantity={3}
+              />
+            </div>
+            <div className="mt-2">
+              <CartDrawerItem
+                id={0}
+                imageUrl={
+                  "https://media.dodostatic.net/image/r:292x292/11EE7D610D2925109AB2E1C92CC5383C.avif"
+                }
+                details={getCartItemDetails(2, 30, [
+                  { name: "Cheese" },
+                  { name: "Bacon" },
+                ])}
+                name={"Cheese Joy"}
+                price={24}
+                quantity={3}
+              />
+            </div>
+            <div className="mt-2">
+              <CartDrawerItem
+                id={0}
+                imageUrl={
+                  "https://media.dodostatic.net/image/r:292x292/11EE7D610D2925109AB2E1C92CC5383C.avif"
+                }
+                details={getCartItemDetails(2, 30, [
+                  { name: "Cheese" },
+                  { name: "Bacon" },
+                ])}
+                name={"Cheese Joy"}
+                price={24}
+                quantity={3}
+              />
+            </div>
+            <div className="mt-2">
+              <CartDrawerItem
+                id={0}
+                imageUrl={
+                  "https://media.dodostatic.net/image/r:292x292/11EE7D610D2925109AB2E1C92CC5383C.avif"
+                }
+                details={getCartItemDetails(2, 30, [
+                  { name: "Cheese" },
+                  { name: "Bacon" },
+                ])}
+                name={"Cheese Joy"}
+                price={24}
+                quantity={3}
+              />
+            </div>
+          </div>
 
           <SheetFooter className="-mx-6 bg-white p-8">
             <div className="w-full">

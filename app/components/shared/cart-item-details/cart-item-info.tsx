@@ -1,32 +1,12 @@
-import { mapPizzaType, PizzaSize, PizzaType } from "@/shared/constants/pizza";
 import { cn } from "@/shared/lib/utils";
-import { Ingredient } from "@prisma/client";
 
 interface Props {
   name: string;
-  pizzaSize?: PizzaSize;
-  type?: PizzaType;
-  ingredients?: Ingredient[];
-  className: string;
+  details: string;
+  className?: string;
 }
 
-export const CartItemInfo: React.FC<Props> = ({
-  name,
-  pizzaSize,
-  ingredients,
-  type,
-  className,
-}) => {
-  const details = [];
-
-  if (pizzaSize && type) {
-    const typeName = mapPizzaType[type];
-    details.push(`${typeName} ${pizzaSize} sm`);
-  }
-
-  if (ingredients) {
-    details.push(...ingredients.map(i => i.name));
-  }
+export const CartItemInfo: React.FC<Props> = ({ name, details, className }) => {
   return (
     <div>
       <div className={cn("flex items-center justify-between", className)}>

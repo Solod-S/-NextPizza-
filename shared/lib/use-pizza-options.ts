@@ -1,3 +1,5 @@
+"use client";
+
 import { Variant } from "@/app/components/shared/group-variants";
 import { useEffect, useState } from "react";
 import { PizzaSize, PizzaType } from "../constants/pizza";
