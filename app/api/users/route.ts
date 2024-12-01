@@ -5,8 +5,12 @@ import {
 import { prisma } from "@/prisma/prisma-client";
 
 export async function GET() {
-  const users = await prisma.user.findMany();
-  return NextResponse.json({ users });
+  try {
+    const users = await prisma.user.findMany();
+    return NextResponse.json({ users });
+  } catch (error) {
+    console.log(`Error in users GET: ${error}`);
+  }
 }
 
 // export async function POST(req: NextRequest) {

@@ -2,6 +2,10 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/prisma/prisma-client";
 
 export async function GET() {
-  const ingredients = await prisma.ingredient.findMany();
-  return NextResponse.json(ingredients);
+  try {
+    const ingredients = await prisma.ingredient.findMany();
+    return NextResponse.json(ingredients);
+  } catch (error) {
+    console.log(`Error in ingredients GET: ${error}`);
+  }
 }
