@@ -44,7 +44,6 @@ export const CheckboxFiltersGroup: React.FC<Props> = ({
       setList(filteredItems);
     } else {
       const limitedItems = (defaultItems || items).slice(0, limit);
-      console.log(`list`, limitedItems);
       setList(limitedItems);
     }
   }, [showAll, items, searchValue, defaultItems, limit]);

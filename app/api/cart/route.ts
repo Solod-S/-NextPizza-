@@ -31,7 +31,7 @@ export async function GET(req: NextRequest) {
     // дай все товары (items)
     //  отсортируй по созданию
     //  вместе с айтемом верни его productItems и сам продукт и ингридиеты
-    return NextResponse.json({ userCart });
+    return NextResponse.json(userCart);
   } catch (error) {
     console.log(`Error in cart GET: ${error}`);
   }
