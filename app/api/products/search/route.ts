@@ -1,6 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import { prisma } from "@/prisma/prisma-client";
 
+// поиск товаров
 export async function GET(req: NextRequest) {
   try {
     const query = req.nextUrl.searchParams.get("query") || "";

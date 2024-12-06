@@ -27,12 +27,26 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({
   children,
   className,
 }) => {
-  const { totalAmount, fetchCartItems, items } = useCartStore(state => state);
+  const {
+    totalAmount,
+    items,
+    fetchCartItems,
+    updateItemQuantity,
+    removeCartItem,
+  } = useCartStore(state => state);
   // const [fetchCartItems] = useCartStore(state => [state.fetchCartItems]);
   useEffect(() => {
     fetchCartItems();
   }, []);
-  console.log(`items`, items);
+
+  const onClickCountButton = (
+    id: number,
+    quantity: number,
+    type: "plus" | "minus"
+  ) => {
+    const newQuantity = type === "plus" ? quantity + 1 : quantity - 1;
+    updateItemQuantity(id, newQuantity);
+  };
   return (
     <div className={className}>
       <Sheet>
@@ -65,6 +79,10 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({
                     name={item.name}
                     price={Number(item.price.toFixed(2))}
                     quantity={item.quantity}
+                    onClickCountButton={type =>
+                      onClickCountButton(item.id, item.quantity, type)
+                    }
+                    onClickRemove={() => removeCartItem(item.id)}
                   />
                 ))}
             </div>
@@ -78,7 +96,9 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({
                   <div className="flex-1 border-b border-dashed border-b-neutral-200 relative -top-1 mx-2" />
                 </span>
 
-                <span className="font-bold text-lg"> {totalAmount} $</span>
+                <span className="font-bold text-lg">
+                  {totalAmount.toFixed(2)} $
+                </span>
               </div>
 
               <Link href="/checkout">
