@@ -36,7 +36,9 @@ export const ChooseProductForm: React.FC<Props> = ({
         <Button
           loading={loading}
           onClick={() => onSubmit()}
-          className="h-[55px] px-10 text-base rounded-[18px] w-full mt-10"
+          className={cn("h-[55px]px-10 text-base rounded-[18px] w-full mt-10", {
+            "w-full": loading,
+          })}
         >
           Add to cart for {price} $
         </Button>

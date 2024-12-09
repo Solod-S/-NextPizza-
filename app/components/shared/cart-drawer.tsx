@@ -34,9 +34,10 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({
     updateItemQuantity,
     removeCartItem,
   } = useCartStore(state => state);
-  // const [fetchCartItems] = useCartStore(state => [state.fetchCartItems]);
+  const { loading } = useCartStore(state => state);
   useEffect(() => {
     fetchCartItems();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onClickCountButton = (
@@ -64,6 +65,7 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({
               items.map(item => (
                 <div key={item.id} className="mt-2">
                   <CartDrawerItem
+                    loading={loading}
                     id={item.id}
                     imageUrl={item.imageUrl}
                     details={
@@ -103,7 +105,7 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({
               <Link href="/checkout">
                 <Button
                   // onClick={() => setRedirecting(true)}
-                  // loading={redirecting}
+                  loading={loading}
                   type="submit"
                   className="w-full h-12 text-base"
                 >

@@ -90,7 +90,9 @@ export const ChoosePizzaForm: React.FC<Props> = ({
         <Button
           loading={loading}
           onClick={handleOnClick}
-          className="h-[55px] px-10 text-base rounded-[18px] w-full mt-10"
+          className={cn("h-[55px]px-10 text-base rounded-[18px] w-full mt-10", {
+            "w-full": loading,
+          })}
         >
           Add to cart for {totalPrice} $
         </Button>
