@@ -15,7 +15,8 @@ export const FIlters: React.FC<Props> = ({ className }) => {
   const filters = useFilters();
 
   useQueryFilters(filters);
-  const items = ingredients.map(i => ({ value: i.name, text: i.name }));
+
+  const items = ingredients.map(i => ({ value: String(i.id), text: i.name }));
 
   const updatePrices = (prices: number[]) => {
     // filters.setPrice({ priceFrom: prices[0], priceTo: prices[1] });
