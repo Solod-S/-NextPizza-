@@ -1,6 +1,6 @@
 import { useSearchParams } from "next/navigation";
 import { useSet } from "react-use";
-import { useState } from "react";
+import React, { useState } from "react";
 
 interface PriceRangeProps {
   priceFrom?: number;
@@ -66,15 +66,18 @@ export const useFilters = (): ReturnProps => {
     setPrice(prevState => ({ ...prevState, [name]: value }));
   };
 
-  return {
-    sizes,
-    pizzaTypes,
-    selectedIngredients,
-    priceFrom,
-    priceTo,
-    setPrice: updatePrice,
-    setPizzaTypes: togglePizzaTypes,
-    setIngredients: toogleIngredients,
-    setSizes: toggleSizes,
-  };
+  return React.useMemo(
+    () => ({
+      sizes,
+      pizzaTypes,
+      selectedIngredients,
+      priceFrom,
+      priceTo,
+      setPrice: updatePrice,
+      setPizzaTypes: togglePizzaTypes,
+      setIngredients: toogleIngredients,
+      setSizes: toggleSizes,
+    }),
+    [sizes, pizzaTypes, selectedIngredients, priceFrom, priceTo]
+  );
 };
