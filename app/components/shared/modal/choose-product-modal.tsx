@@ -23,24 +23,6 @@ export const ChooseProductModal: React.FC<Props> = ({ product, className }) => {
         )}
       >
         <ProductForm product={product} onSubmit={() => router.back()} />
-        {/* {isPizzaForm ? (
-          <ChoosePizzaForm
-            imageUrl={product.imageUrl}
-            name={product.name}
-            ingredients={product.ingredients}
-            items={product.items}
-            onSubmit={onSubmit}
-            loading={loading}
-          />
-        ) : (
-          <ChooseProductForm
-            imageUrl={product.imageUrl}
-            name={product.name}
-            onSubmit={onSubmit}
-            price={firstItem.price}
-            loading={loading}
-          />
-        )} */}
       </DialogContent>
     </Dialog>
   );

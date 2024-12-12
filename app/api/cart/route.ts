@@ -60,17 +60,67 @@ export async function POST(req: NextRequest) {
     const userCart = await findOrCreateCart(token);
     //  проверяем не был ли добавлен ранее товар, если был + такие же ингридиенты, делаем + 1
 
-    const findCartItem = await prisma.cartItem.findFirst({
+    // const findCartItem = await prisma.cartItem.findFirst({
+    //   where: {
+    //     cartId: userCart.id,
+    //     productItemId: data.productItemId,
+    //     ...{data.ingredients ? {ingredients: {
+    //       some: {
+    //         id: { in: data.ingredients }
+    //       }
+    //     }} : {}}
+    //   },
+    //   include: {
+    //     ingredients: true,
+    //   },
+    // });
+
+    // const findCartItem = await prisma.cartItem.findFirst({
+    //   where: {
+    //     cartId: userCart.id,
+    //     productItemId: data.productItemId,
+    //     ingredients: {
+    //       every: {
+    //         id: { in: data.ingredients },
+    //       },
+    //       some: {},
+    //       // костыль потому что проблемы с добавлением пиц с разными ингридиентами
+    //       //  15:21
+    //     },
+    //   },
+    // });
+    const cartItems = await prisma.cartItem.findMany({
       where: {
         cartId: userCart.id,
         productItemId: data.productItemId,
-        ingredients: {
-          every: {
-            id: { in: data.ingredients },
-          },
-        },
+      },
+      include: {
+        ingredients: true,
       },
     });
+
+    let findCartItem = null;
+
+    if (data.ingredients && Array.isArray(data.ingredients)) {
+      // Сортируем массив ингредиентов для сравнения
+      const sortedDataIngredients = data.ingredients.sort((a, b) => a - b);
+
+      // Ищем подходящий товар
+      findCartItem = cartItems.find(item => {
+        const itemIngredients = item.ingredients
+          .map(ingredient => ingredient.id)
+          .sort((a, b) => a - b);
+        return (
+          JSON.stringify(itemIngredients) ===
+          JSON.stringify(sortedDataIngredients)
+        );
+      });
+    } else {
+      // Если `data.ingredients` отсутствует, ищем товар без ингредиентов
+      findCartItem = cartItems.find(item => item.ingredients.length === 0);
+    }
+
+    //
     //  сценарий если товар был найден - делаем +1
     if (findCartItem) {
       await prisma.cartItem.update({
