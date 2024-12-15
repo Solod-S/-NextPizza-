@@ -14,7 +14,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet";
+} from "@/app/components/ui/sheet";
 import { CartDrawerItem } from "./cart-drawer-item";
 import { cn, getCartItemDetails } from "@/shared/lib";
 import { useCartStore } from "@/shared/store";
