@@ -20,5 +20,9 @@ export { CartButton } from "./cart-button";
 export { CartDrawer } from "./cart-drawer";
 export { CartDrawerItem } from "./cart-drawer-item";
 export { ProductForm } from "./product-form";
+<<<<<<< HEAD
 export { WhiteBlock } from "./white-bock";
+=======
+export { WhiteBlock } from "./white-block";
+>>>>>>> 012c1aeda3b0839b81ce55804f2de5c47f0001e0
 export * from "./modal";
