@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 // import Image from "next/image";
 import Link from "next/link";
 import { Button } from "../ui";
@@ -8,7 +8,6 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import {
   Sheet,
   SheetClose,
-  // SheetClose,
   SheetContent,
   SheetFooter,
   SheetHeader,
@@ -17,10 +16,10 @@ import {
 } from "@/app/components/ui/sheet";
 import { CartDrawerItem } from "./cart-drawer-item";
 import { cn, getCartItemDetails } from "@/shared/lib";
-import { useCartStore } from "@/shared/store";
 import { PizzaSize, PizzaType } from "@/shared/constants/pizza";
 import Image from "next/image";
 import { Title } from "./title";
+import { useCart } from "@/shared/hooks";
 
 interface Props {
   className?: string;
@@ -33,15 +32,11 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({
   const {
     totalAmount,
     items,
-    fetchCartItems,
+
     updateItemQuantity,
     removeCartItem,
-  } = useCartStore(state => state);
-  const { loading } = useCartStore(state => state);
-  useEffect(() => {
-    fetchCartItems();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    loading,
+  } = useCart();
 
   const onClickCountButton = (
     id: number,

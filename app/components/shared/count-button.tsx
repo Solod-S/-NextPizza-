@@ -4,7 +4,7 @@ import { CountIconButton } from "./count-icon-button";
 
 export interface CountButtonProps {
   value?: number;
-  loading: boolean;
+  loading?: boolean;
   size?: "sm" | "lg";
   onClick?: (type: "plus" | "minus") => void;
   className?: string;
