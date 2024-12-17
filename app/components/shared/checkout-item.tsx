@@ -9,6 +9,7 @@ import * as CartItemDetails from "./cart-item-details";
 interface Props extends CartItemProps {
   onClickCountButton?: (type: "plus" | "minus") => void;
   onClickRemove?: () => void;
+  loading: boolean;
   className?: string;
 }
 
@@ -20,6 +21,7 @@ export const CheckoutItem: React.FC<Props> = ({
   details,
   className,
   disabled,
+  loading,
   onClickCountButton,
   onClickRemove,
 }) => {
@@ -44,6 +46,7 @@ export const CheckoutItem: React.FC<Props> = ({
         <CartItemDetails.CountButton
           onClick={onClickCountButton}
           value={quantity}
+          loading={loading}
         />
         <button type="button" onClick={onClickRemove}>
           <X

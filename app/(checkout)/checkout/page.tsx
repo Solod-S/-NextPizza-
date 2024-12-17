@@ -1,3 +1,4 @@
+"use client";
 import {
   CheckoutItem,
   CheckoutSidebar,
@@ -5,10 +6,24 @@ import {
   Title,
   WhiteBlock,
 } from "@/app/components/shared";
-import { Button, Input, Textarea } from "@/app/components/ui";
-import { ArrowRight, Package, Percent, Truck } from "lucide-react";
+import { Input, Textarea } from "@/app/components/ui";
+import { PizzaSize, PizzaType } from "@/shared/constants/pizza";
+import { useCart } from "@/shared/hooks";
+import { getCartItemDetails } from "@/shared/lib";
 
 export default function Checkout() {
+  const { totalAmount, items, updateItemQuantity, removeCartItem, loading } =
+    useCart();
+
+  const onClickCountButton = (
+    id: number,
+    quantity: number,
+    type: "plus" | "minus"
+  ) => {
+    const newQuantity = type === "plus" ? quantity + 1 : quantity - 1;
+    updateItemQuantity(id, newQuantity);
+  };
+
   return (
     <Container>
       <Title
@@ -20,26 +35,27 @@ export default function Checkout() {
         <div className="flex flex-col gap-10 flex-1 mb-20">
           <WhiteBlock title="1. Cart">
             <div className="flex flex-col gap-5">
-              <CheckoutItem
-                id={0}
-                imageUrl={
-                  "https://media.dodostatic.net/image/r:292x292/11EE7D60FDA22358AC33C6A44EB093A2.avif"
-                }
-                details={"Lorem ipsum dolor sit amet, consectetur adip"}
-                name={"Ham and cheese"}
-                price={33}
-                quantity={3}
-              />
-              <CheckoutItem
-                id={1}
-                imageUrl={
-                  "https://media.dodostatic.net/image/r:292x292/11EE7D60FDA22358AC33C6A44EB093A2.avif"
-                }
-                details={"Lorem ipsum dolor sit amet, consectetur adip"}
-                name={"Ham and cheese"}
-                price={33}
-                quantity={3}
-              />
+              {items.map(item => (
+                <CheckoutItem
+                  loading={loading}
+                  disabled={item.disabled}
+                  key={item.id}
+                  id={item.id}
+                  imageUrl={item.imageUrl}
+                  details={getCartItemDetails(
+                    item.ingredients,
+                    item.pizzaType as PizzaType,
+                    item.pizzaSize as PizzaSize
+                  )}
+                  name={item.name}
+                  price={Number(item.price.toFixed(2))}
+                  quantity={item.quantity}
+                  onClickCountButton={type =>
+                    onClickCountButton(item.id, item.quantity, type)
+                  }
+                  onClickRemove={() => removeCartItem(item.id)}
+                />
+              ))}
             </div>
           </WhiteBlock>
 
@@ -76,47 +92,7 @@ export default function Checkout() {
         </div>
         {/* Правая часть*/}
         <div className="w-[450px]">
-          <WhiteBlock className="p-6 sticky top-4">
-            <div className="flex flex-col gap-1">
-              <span className="text-xl">Total</span>
-              <span className="text-[34px] font-extrabold">335 $</span>
-            </div>
-            <CheckoutSidebar
-              title={
-                <div className="flex items-center">
-                  <Package size={18} className="mr-2 text-gray-300" />
-                  Product cost
-                </div>
-              }
-              value="300"
-            />
-            <CheckoutSidebar
-              title={
-                <div className="flex items-center">
-                  <Percent size={18} className="mr-2 text-gray-300" />
-                  Taxes
-                </div>
-              }
-              value="10"
-            />
-            <CheckoutSidebar
-              title={
-                <div className="flex items-center">
-                  <Truck size={18} className="mr-2 text-gray-300" />
-                  Delivery
-                </div>
-              }
-              value="25"
-            />
-            <Button
-              type="submit"
-              // disabled={totalAmount || submitting}
-              className="w-full h-14 rounded-2xl mt-6 text-base font-bold"
-            >
-              Proceed to payment
-              <ArrowRight className="w-5 ml-2" />
-            </Button>
-          </WhiteBlock>
+          <CheckoutSidebar totalAmount={totalAmount} />
         </div>
       </div>
     </Container>

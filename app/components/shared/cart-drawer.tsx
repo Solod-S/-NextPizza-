@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 // import Image from "next/image";
 import Link from "next/link";
 import { Button } from "../ui";
@@ -29,14 +29,9 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({
   children,
   className,
 }) => {
-  const {
-    totalAmount,
-    items,
-
-    updateItemQuantity,
-    removeCartItem,
-    loading,
-  } = useCart();
+  const { totalAmount, items, updateItemQuantity, removeCartItem, loading } =
+    useCart();
+  const [redirecting, setRedirecting] = useState(false);
 
   const onClickCountButton = (
     id: number,
@@ -101,15 +96,11 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({
                           disabled={item.disabled}
                           id={item.id}
                           imageUrl={item.imageUrl}
-                          details={
-                            item.pizzaSize || item.pizzaType
-                              ? getCartItemDetails(
-                                  item.ingredients,
-                                  item.pizzaType as PizzaType,
-                                  item.pizzaSize as PizzaSize
-                                )
-                              : ""
-                          }
+                          details={getCartItemDetails(
+                            item.ingredients,
+                            item.pizzaType as PizzaType,
+                            item.pizzaSize as PizzaSize
+                          )}
                           name={item.name}
                           price={Number(item.price.toFixed(2))}
                           quantity={item.quantity}
@@ -137,8 +128,9 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({
 
                     <Link href="/checkout">
                       <Button
-                        // onClick={() => setRedirecting(true)}
-                        loading={loading}
+                        disabled={redirecting}
+                        loading={redirecting || loading}
+                        onClick={() => setRedirecting(true)}
                         type="submit"
                         className="w-full h-12 text-base"
                       >
