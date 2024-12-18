@@ -18,7 +18,9 @@ export const CheckoutSidebar: React.FC<Props> = ({ totalAmount }) => {
     <WhiteBlock className="p-6 sticky top-4">
       <div className="flex flex-col gap-1">
         <span className="text-xl">Total</span>
-        <span className="text-[34px] font-extrabold">{totalPrice} $</span>
+        <span className="text-[34px] font-extrabold">
+          {totalPrice.toFixed(2)} $
+        </span>
       </div>
       <CheckoutItemDetails
         title={
