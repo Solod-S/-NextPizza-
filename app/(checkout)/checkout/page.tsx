@@ -10,13 +10,9 @@ import {
   CheckoutSidebar,
   Container,
   Title,
-} from "@/app/components/shared";
-
+} from "@/app/components";
+import { checkoutFormSchema, TCheckoutFormValues } from "@/shared/constants";
 import { useCart } from "@/shared/hooks";
-import {
-  checkoutFormSchema,
-  TCheckoutFormValues,
-} from "@/app/components/shared/checkout/checkout-form-schema";
 
 export default function Checkout() {
   const { totalAmount, items, updateItemQuantity, removeCartItem, loading } =

@@ -27,6 +27,13 @@ export const FormInput: React.FC<Props> = ({
   } = useFormContext();
   // Берет конктест из форм провайдера
 
+  const value = watch(name);
+  const errorText = errors[name]?.message as string;
+
+  const onClickClear = () => {
+    setValue(name, "", { shouldValidate: true });
+  };
+
   return (
     <div className={className}>
       {label && (
@@ -35,10 +42,13 @@ export const FormInput: React.FC<Props> = ({
         </p>
       )}
       <div className="relative">
-        <Input className="h-12 text-md" {...props} />
-        <ClearButton onClick={() => {}} />
+        <Input className="h-12 text-md" {...register(name)} {...props} />
+        {value && <ClearButton onClick={onClickClear} />}
       </div>
-      <ErrorText text="Error message" className="mt-2" />
+      {errorText && <ErrorText text={errorText} className="mt-2" />}
     </div>
   );
 };
+
+// для валидации номера телефона
+// https://www.npmjs.com/package/react-imask
