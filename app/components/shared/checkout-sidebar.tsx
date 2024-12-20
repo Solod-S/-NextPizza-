@@ -13,7 +13,7 @@ const DELIVERY_PRICE = 5;
 
 export const CheckoutSidebar: React.FC<Props> = ({ totalAmount }) => {
   const vatPrice = (totalAmount * VAT) / 100;
-  const totalPrice = totalAmount + DELIVERY_PRICE + VAT;
+  const totalPrice = totalAmount + DELIVERY_PRICE + vatPrice;
   return (
     <WhiteBlock className="p-6 sticky top-4">
       <div className="flex flex-col gap-1">
