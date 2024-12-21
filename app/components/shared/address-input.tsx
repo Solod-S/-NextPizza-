@@ -44,6 +44,7 @@ export const AddressInput: React.FC<Props> = ({ onChange }) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
     setShowSuggestions(true);
+    onChange?.(e.target.value);
   };
 
   return (

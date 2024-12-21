@@ -61,12 +61,12 @@ export default function Checkout() {
                 onClickCountButton={onClickCountButton}
                 removeCartItem={removeCartItem}
               />
-              <CheckoutPersonalForm />
+              <CheckoutPersonalForm className="opacity-40 pointer-events-none" />
               <CheckoutAddressForm />
             </div>
             {/* Правая часть*/}
             <div className="w-[450px]">
-              <CheckoutSidebar totalAmount={totalAmount} />
+              <CheckoutSidebar totalAmount={totalAmount} loading={loading} />
             </div>
           </div>
         </form>
