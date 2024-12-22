@@ -4,6 +4,7 @@ import { CheckoutItem } from "../checkout-item";
 import { getCartItemDetails } from "@/shared/lib";
 import { PizzaSize, PizzaType } from "@/shared/constants/pizza";
 import { CartStateItem } from "@/shared/lib/get-cart-details";
+import { CheckoutItemSkeleton } from "../checkout-item-skeleton";
 
 interface Props {
   loading: boolean;
@@ -27,27 +28,34 @@ export const CheckoutCart: React.FC<Props> = ({
   return (
     <WhiteBlock title="1. Cart" className={className}>
       <div className="flex flex-col gap-5">
-        {items.map(item => (
-          <CheckoutItem
-            loading={loading}
-            disabled={item.disabled}
-            key={item.id}
-            id={item.id}
-            imageUrl={item.imageUrl}
-            details={getCartItemDetails(
-              item.ingredients,
-              item.pizzaType as PizzaType,
-              item.pizzaSize as PizzaSize
-            )}
-            name={item.name}
-            price={Number(item.price.toFixed(2))}
-            quantity={item.quantity}
-            onClickCountButton={type =>
-              onClickCountButton(item.id, item.quantity, type)
-            }
-            onClickRemove={() => removeCartItem(item.id)}
-          />
-        ))}
+        {loading &&
+          Array.from({ length: 4 }, (_, index) => (
+            <CheckoutItemSkeleton key={index} />
+          ))}
+
+        {!loading &&
+          items.length > 0 &&
+          items.map(item => (
+            <CheckoutItem
+              loading={loading}
+              disabled={item.disabled}
+              key={item.id}
+              id={item.id}
+              imageUrl={item.imageUrl}
+              details={getCartItemDetails(
+                item.ingredients,
+                item.pizzaType as PizzaType,
+                item.pizzaSize as PizzaSize
+              )}
+              name={item.name}
+              price={Number(item.price.toFixed(2))}
+              quantity={item.quantity}
+              onClickCountButton={type =>
+                onClickCountButton(item.id, item.quantity, type)
+              }
+              onClickRemove={() => removeCartItem(item.id)}
+            />
+          ))}
       </div>
     </WhiteBlock>
   );

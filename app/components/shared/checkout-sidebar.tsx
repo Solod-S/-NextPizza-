@@ -74,6 +74,7 @@ export const CheckoutSidebar: React.FC<Props> = ({ totalAmount, loading }) => {
       />
       <Button
         type="submit"
+        loading={loading}
         // disabled={totalAmount || submitting}
         className="w-full h-14 rounded-2xl mt-6 text-base font-bold"
       >
