@@ -2,32 +2,10 @@
 
 import { prisma } from "@/prisma/prisma-client";
 import { TCheckoutFormValues } from "@/shared/constants";
+import { sendEmail } from "@/shared/lib";
 import { OrderStatus } from "@prisma/client";
 import { cookies } from "next/headers";
-
-// export const createOrder = async (data: TCheckoutFormValues) => {
-//   try {
-//     const cookiesStore = cookies();
-//     const cartToken = cookiesStore.get("cartToken")?.value;
-//     if (!cartToken) {
-//       throw new Error("Cart token not found");
-//     }
-//     await prisma.order.create({
-//       data: {
-//         token: cartToken,
-//         totalAmount: 20,
-//         status: OrderStatus.PENDING,
-//         items: [],
-//         fullName: data.firstName + " " + data.lastName,
-//         email: data.email,
-//         phone: data.phone,
-//         address: data.address,
-//         comment: data.comment,
-//       },
-//     });
-//     return "http://localhost:3000/";
-//   } catch (error) {}
-// };
+import { PayOrderTemplate } from "./components";
 
 export async function createOrder(data: TCheckoutFormValues) {
   try {
@@ -121,15 +99,16 @@ export async function createOrder(data: TCheckoutFormValues) {
 
     // const paymentUrl = paymentData.confirmation.confirmation_url;
 
-    // await sendEmail(
-    //   data.email,
-    //   "Next Pizza / Payment for order #" + order.id,
-    //   PayOrderTemplate({
-    //     orderId: order.id,
-    //     totalAmount: order.totalAmount,
-    //     paymentUrl,
-    //   })
-    // );
+    await sendEmail(
+      data.email,
+      "Next Pizza / Payment for order #" + order.id,
+      PayOrderTemplate({
+        orderId: order.id,
+        // solod098@gmail.com
+        totalAmount: order.totalAmount,
+        paymentUrl: "https://resend.com/docs/send-with-nextjs",
+      })
+    );
 
     // return paymentUrl;
   } catch (err) {

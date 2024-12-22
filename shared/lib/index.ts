@@ -9,3 +9,4 @@ export { getCartDetails } from "./get-cart-details";
 export { calcCartTotalPrice } from "./calc-cart-item-total-price";
 export { findOrCreateCart } from "./find-or-create-cart";
 export { findPizzas } from "./find-pizzas";
+export { sendEmail } from "./sendEmail";
