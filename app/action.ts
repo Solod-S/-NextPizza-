@@ -1,11 +1,9 @@
 "use server";
-
 import { prisma } from "@/prisma/prisma-client";
 import { TCheckoutFormValues } from "@/shared/constants";
-import { sendEmail } from "@/shared/lib";
+import { createPayment } from "@/shared/lib";
 import { OrderStatus } from "@prisma/client";
 import { cookies } from "next/headers";
-import { PayOrderTemplate } from "./components";
 
 export async function createOrder(data: TCheckoutFormValues) {
   try {
@@ -78,39 +76,27 @@ export async function createOrder(data: TCheckoutFormValues) {
       },
     });
 
-    // const paymentData = await createPayment({
-    //   amount: order.totalAmount,
-    //   orderId: order.id,
-    //   description: "Payment for order #" + order.id,
-    // });
+    const paymentSessionId = await createPayment({
+      email: data.email,
+      amount: order.totalAmount,
+      orderId: order.id,
+      description: "Payment for order #" + order.id,
+    });
 
-    // if (!paymentData) {
-    //   throw new Error("Payment data not found");
-    // }
+    if (!paymentSessionId) {
+      throw new Error("Payment data not found");
+    }
 
-    // await prisma.order.update({
-    //   where: {
-    //     id: order.id,
-    //   },
-    //   data: {
-    //     paymentId: paymentData.id,
-    //   },
-    // });
+    await prisma.order.update({
+      where: {
+        id: order.id,
+      },
+      data: {
+        paymentId: paymentSessionId,
+      },
+    });
 
-    // const paymentUrl = paymentData.confirmation.confirmation_url;
-
-    await sendEmail(
-      data.email,
-      "Next Pizza / Payment for order #" + order.id,
-      PayOrderTemplate({
-        orderId: order.id,
-        // solod098@gmail.com
-        totalAmount: order.totalAmount,
-        paymentUrl: "https://resend.com/docs/send-with-nextjs",
-      })
-    );
-
-    // return paymentUrl;
+    return paymentSessionId;
   } catch (err) {
     console.log("[CreateOrder] Server error", err);
   }

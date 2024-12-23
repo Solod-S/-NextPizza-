@@ -1,3 +1,5 @@
+"use client";
+// TODO TEMP
 import React from "react";
 import { WhiteBlock } from "../white-bock";
 

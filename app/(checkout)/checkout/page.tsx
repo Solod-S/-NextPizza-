@@ -16,6 +16,7 @@ import { useCart } from "@/shared/hooks";
 import { createOrder } from "@/app/action";
 import toast from "react-hot-toast";
 import { useState } from "react";
+import { loadStripe } from "@stripe/stripe-js";
 
 export default function Checkout() {
   const [submitting, setSubmitting] = useState(false);
@@ -47,15 +48,25 @@ export default function Checkout() {
     try {
       setSubmitting(true);
 
-      const url = await createOrder(data);
-
       toast.error("Order successfully placed! 📝 Proceeding to payment... ", {
         icon: "✅",
       });
 
-      if (url) {
-        location.href = url;
+      const paymentSessionId = await createOrder(data);
+
+      if (!paymentSessionId) {
+        throw new Error("Failed to create payment session");
       }
+
+      const stripe = await loadStripe(
+        process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY as string
+      );
+
+      if (!stripe) {
+        throw new Error("Stripe failed to load");
+      }
+
+      await stripe.redirectToCheckout({ sessionId: paymentSessionId });
     } catch (err) {
       console.log(err);
       setSubmitting(false);

@@ -14,10 +14,10 @@ export const PayOrderTemplate: React.FC<Readonly<Props>> = ({
   <div>
     <h1>Order #{orderId}!</h1>
     <p>
-      Pay for the order {totalAmount} $. Follow the{" "}
+      Pay for the order <b>{totalAmount}$</b>. Follow the{" "}
       <a target="_blank" rel="noopener noreferrer" href={paymentUrl}>
         link
-      </a>
+      </a>{" "}
       to pay for the order.
     </p>
   </div>

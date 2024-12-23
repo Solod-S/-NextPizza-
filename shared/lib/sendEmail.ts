@@ -6,7 +6,7 @@ export const sendEmail = async (
   subject: string,
   template?: React.ReactNode
 ) => {
-  const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_API_KEY);
+  const resend = new Resend(process.env.NEXT_RESEND_API_KEY);
 
   const { data, error } = await resend.emails.send({
     from: "Acme <onboarding@resend.dev>",
