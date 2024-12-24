@@ -60,21 +60,21 @@ export async function createOrder(data: TCheckoutFormValues) {
     });
 
     /* Очищаем корзину (НЕ УДАЛЯЕМ) */
-    await prisma.cart.update({
-      where: {
-        id: userCart.id,
-      },
-      data: {
-        totalAmount: 0,
-      },
-    });
+    // await prisma.cart.update({
+    //   where: {
+    //     id: userCart.id,
+    //   },
+    //   data: {
+    //     totalAmount: 0,
+    //   },
+    // });
 
-    /* удаляем товары из корзины */
-    await prisma.cartItem.deleteMany({
-      where: {
-        cartId: userCart.id,
-      },
-    });
+    // /* удаляем товары из корзины */
+    // await prisma.cartItem.deleteMany({
+    //   where: {
+    //     cartId: userCart.id,
+    //   },
+    // });
 
     const paymentSessionId = await createPayment({
       email: data.email,
@@ -82,7 +82,7 @@ export async function createOrder(data: TCheckoutFormValues) {
       orderId: order.id,
       description: "Payment for order #" + order.id,
     });
-
+    console.log(`paymentSessionId`, paymentSessionId);
     if (!paymentSessionId) {
       throw new Error("Payment data not found");
     }

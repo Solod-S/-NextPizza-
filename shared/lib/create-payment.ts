@@ -1,6 +1,7 @@
 import { PayOrderTemplate } from "@/app/components";
 import { stripe } from "../services/stripe";
 import { sendEmail } from "./sendEmail";
+import { API_BASE_URL } from "../constants";
 
 export interface createPaymentProps {
   email: string;
@@ -12,9 +13,9 @@ export interface createPaymentProps {
 export async function createPayment(values: createPaymentProps) {
   const { amount, orderId, description, email } = values;
 
-  const orderDescription = `Order # ${orderId}, order price ${amount.toFixed(
+  const orderDescription = `Order #${orderId}, order price ${amount.toFixed(
     2
-  )}$, order description: ${description}`;
+  )}`;
 
   const lineItem = {
     price_data: {
@@ -29,11 +30,21 @@ export async function createPayment(values: createPaymentProps) {
 
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
+    customer_email: email,
     line_items: [lineItem],
     mode: "payment",
-    success_url: "http://localhost:3000/",
-    cancel_url: "http://localhost:3000/",
+    success_url: `${API_BASE_URL}/success?orderId=${orderId}`,
+    cancel_url: `${API_BASE_URL}/cancel?orderId=${orderId}`,
+    payment_intent_data: {
+      metadata: {
+        orderId: orderId.toString(),
+        email,
+        amount: amount.toString(),
+        description,
+      },
+    },
   });
+  // console.log(`session`, session);
 
   await sendEmail(
     email,
