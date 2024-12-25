@@ -1,6 +1,6 @@
 import { PayOrderTemplate } from "@/app/components";
 import { stripe } from "../services/stripe";
-import { sendEmail } from "./sendEmail";
+// import { sendEmail } from "./sendEmail";
 import { API_BASE_URL } from "../constants";
 
 export interface createPaymentProps {
@@ -46,16 +46,16 @@ export async function createPayment(values: createPaymentProps) {
   });
   // console.log(`session`, session);
 
-  await sendEmail(
-    email,
-    "Next Pizza / Payment for order #" + orderId,
-    PayOrderTemplate({
-      orderId: orderId,
-      // solod098@gmail.com
-      totalAmount: amount,
-      paymentUrl: session.url as string,
-    })
-  );
+  // await sendEmail(
+  //   email,
+  //   "Next Pizza / Payment for order #" + orderId,
+  //   PayOrderTemplate({
+  //     orderId: orderId,
+  //     // solod098@gmail.com
+  //     totalAmount: amount,
+  //     paymentUrl: session.url as string,
+  //   })
+  // );
 
   return session.id;
 }

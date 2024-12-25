@@ -8,11 +8,11 @@ import { prisma } from "@/prisma/prisma-client";
 import { OrderStatus } from "@prisma/client";
 import { CartItemDTO } from "@/shared/services/dto/cart.dto";
 
-// export const config = {
-//   api: {
-//     bodyParser: false,
-//   },
-// };
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
 
 export async function POST(req: NextRequest) {
   const endpointSecret = process.env.NEXT_STRIPE_WEBHOOK_SECRET as string;
