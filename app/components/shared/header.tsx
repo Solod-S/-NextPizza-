@@ -51,7 +51,6 @@ export const Header: React.FC<Props> = ({
           />
           <ProfileButton onClickSignIn={() => setOpenAuthModal(true)} />
           {hasCart && <CartButton />}
-          <div></div>
         </div>
       </Container>
     </header>

@@ -1,8 +1,15 @@
 "use client";
 
-import { Button, Dialog, DialogContent } from "@/app/components/ui";
+import {
+  Button,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+} from "@/app/components/ui";
 import { signIn } from "next-auth/react";
 import React from "react";
+import { LoginForm, RegisterForm } from "./forms";
+import { DialogTitle } from "@radix-ui/react-dialog";
 // import { LoginForm } from "./forms/login-form";
 // import { RegisterForm } from "./forms/register-form";
 
@@ -10,6 +17,23 @@ interface Props {
   open: boolean;
   onClose: () => void;
 }
+
+interface ReaderDataProps {
+  type: string;
+}
+
+const ReaderData: React.FC<ReaderDataProps> = ({ type }) => {
+  return (
+    <div className="invisible">
+      <DialogTitle>{type === "login" ? "Login" : "Register"}</DialogTitle>
+      <DialogDescription>
+        {type === "login"
+          ? "Enter your credentials to log in to your account."
+          : "Fill in the required fields to create a new account."}
+      </DialogDescription>
+    </div>
+  );
+};
 
 export const AuthModal: React.FC<Props> = ({ open, onClose }) => {
   const [type, setType] = React.useState<"login" | "register">("login");
@@ -24,12 +48,13 @@ export const AuthModal: React.FC<Props> = ({ open, onClose }) => {
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
+      <ReaderData type={type} />
       <DialogContent className="w-[450px] bg-white p-10">
-        {/* {type === "login" ? (
+        {type === "login" ? (
           <LoginForm onClose={handleClose} />
         ) : (
           <RegisterForm onClose={handleClose} />
-        )} */}
+        )}
 
         <hr />
         <div className="flex gap-2">
@@ -76,7 +101,9 @@ export const AuthModal: React.FC<Props> = ({ open, onClose }) => {
           type="button"
           className="h-12"
         >
-          {type !== "login" ? "Войти" : "Регистрация"}
+          {type === "login"
+            ? "Don't have an account?"
+            : "Already have an account?"}
         </Button>
       </DialogContent>
     </Dialog>

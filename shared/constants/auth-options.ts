@@ -129,6 +129,7 @@ export const authOptions: AuthOptions = {
         return false;
       }
     },
+
     async jwt({ token }) {
       if (!token.email) {
         return token;
@@ -149,6 +150,7 @@ export const authOptions: AuthOptions = {
 
       return token;
     },
+
     session({ session, token }) {
       if (session?.user) {
         session.user.id = token.id;
@@ -159,3 +161,5 @@ export const authOptions: AuthOptions = {
     },
   },
 };
+
+// root-auth.d.ts типизация тут

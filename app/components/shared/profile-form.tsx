@@ -6,7 +6,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import {
   TFormRegisterValues,
   formRegisterSchema,
-} from "./modals/auth-modal/forms/schemas";
+} from "./modal/auth-modal/forms/schemas";
 import { User } from "@prisma/client";
 import toast from "react-hot-toast";
 import { signOut } from "next-auth/react";
@@ -14,7 +14,7 @@ import { Container } from "./container";
 import { Title } from "./title";
 import { FormInput } from "./form";
 import { Button } from "../ui";
-import { updateUserInfo } from "@/app/actions";
+import { updateUserInfo } from "@/app/action";
 
 interface Props {
   data: User;
@@ -39,11 +39,11 @@ export const ProfileForm: React.FC<Props> = ({ data }) => {
         password: data.password,
       });
 
-      toast.error("Данные обновлены 📝", {
+      toast.error("Data updated 📝", {
         icon: "✅",
       });
     } catch (error) {
-      return toast.error("Ошибка при обновлении данных", {
+      return toast.error("Error updating data", {
         icon: "❌",
       });
     }
@@ -58,7 +58,7 @@ export const ProfileForm: React.FC<Props> = ({ data }) => {
   return (
     <Container className="my-10">
       <Title
-        text={`Личные данные | #${data.id}`}
+        text={`Personal information | #${data.id}`}
         size="md"
         className="font-bold"
       />
@@ -68,19 +68,19 @@ export const ProfileForm: React.FC<Props> = ({ data }) => {
           className="flex flex-col gap-5 w-96 mt-10"
           onSubmit={form.handleSubmit(onSubmit)}
         >
-          <FormInput name="email" label="E-Mail" required />
+          <FormInput disabled={true} name="email" label="E-Mail" required />
           <FormInput name="fullName" label="Полное имя" required />
 
           <FormInput
             type="password"
             name="password"
-            label="Новый пароль"
+            label="New Password"
             required
           />
           <FormInput
             type="password"
             name="confirmPassword"
-            label="Повторите пароль"
+            label="Repeat password"
             required
           />
 
@@ -89,7 +89,7 @@ export const ProfileForm: React.FC<Props> = ({ data }) => {
             className="text-base mt-10"
             type="submit"
           >
-            Сохранить
+            Save
           </Button>
 
           <Button
@@ -99,7 +99,7 @@ export const ProfileForm: React.FC<Props> = ({ data }) => {
             className="text-base"
             type="button"
           >
-            Выйти
+            Log out
           </Button>
         </form>
       </FormProvider>
