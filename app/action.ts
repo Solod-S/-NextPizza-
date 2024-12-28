@@ -1,15 +1,12 @@
 "use server";
 import { prisma } from "@/prisma/prisma-client";
 import { TCheckoutFormValues } from "@/shared/constants";
-import {
-  createPayment,
-  // sendEmail
-} from "@/shared/lib";
+import { createPayment, sendEmail } from "@/shared/lib";
 import { getUserSession } from "@/shared/lib/get-user-session";
 import { OrderStatus, Prisma } from "@prisma/client";
 import { hashSync } from "bcrypt";
 import { cookies } from "next/headers";
-// import { VerificationUserTemplate } from "./components/shared/email-templates";
+import { VerificationUserTemplate } from "./components/shared/email-templates";
 
 export async function createOrder(data: TCheckoutFormValues) {
   try {
@@ -132,7 +129,7 @@ export async function updateUserInfo(body: Prisma.UserUpdateInput) {
       },
       data: {
         fullName: body.fullName,
-        email: body.email,
+        // email: body.email,
         password: body.password
           ? hashSync(body.password as string, 10)
           : findUser?.password,
@@ -165,7 +162,7 @@ export async function registerUser(body: Prisma.UserCreateInput) {
         fullName: body.fullName,
         email: body.email,
         password: hashSync(body.password, 10),
-        verified: body.verified,
+        // verified: body.verified,
       },
     });
 
@@ -178,14 +175,13 @@ export async function registerUser(body: Prisma.UserCreateInput) {
       },
     });
 
-    // await sendEmail(
-    //   createdUser.email,
-    //   "Next Pizza / 📝 Confirmation of registration",
-    //   VerificationUserTemplate({
-    //     code,
-    //   })
-    // );
-    return createdUser;
+    await sendEmail(
+      createdUser.email,
+      "Next Pizza / 📝 Confirmation of registration",
+      VerificationUserTemplate({
+        code,
+      })
+    );
   } catch (err) {
     console.log("Error [CREATE_USER]", err);
     throw err;

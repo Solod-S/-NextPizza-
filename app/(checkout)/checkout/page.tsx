@@ -15,10 +15,15 @@ import { checkoutFormSchema, TCheckoutFormValues } from "@/shared/constants";
 import { useCart } from "@/shared/hooks";
 import { createOrder } from "@/app/action";
 import toast from "react-hot-toast";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
+import { useSession } from "next-auth/react";
+import { Api } from "@/shared/services/api-client";
+import { User } from "@prisma/client";
 
 export default function Checkout() {
+  const { data: session } = useSession();
+
   const [submitting, setSubmitting] = useState(false);
   const { totalAmount, items, updateItemQuantity, removeCartItem, loading } =
     useCart();
@@ -34,6 +39,25 @@ export default function Checkout() {
       comment: "",
     },
   });
+
+  useEffect(() => {
+    async function fetchUserInfo() {
+      console.log(1);
+      const data = (await Api.auth.getMe()) as User;
+      console.log(`data`, data);
+
+      const [firstName, lastName] = data.fullName.split(" ");
+      form.setValue("firstName", firstName);
+      form.setValue("lastName", lastName);
+      form.setValue("email", data.email);
+    }
+
+    if (session) {
+      console.log(`session`, session);
+      fetchUserInfo();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [session]);
 
   const onClickCountButton = (
     id: number,

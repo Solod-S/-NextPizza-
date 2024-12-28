@@ -24,7 +24,7 @@ export const ProfileForm: React.FC<Props> = ({ data }) => {
   const form = useForm({
     resolver: zodResolver(formRegisterSchema),
     defaultValues: {
-      fullName: data.fullName,
+      fullName: data.fullName ?? "",
       email: data.email,
       password: "",
       confirmPassword: "",
@@ -43,6 +43,7 @@ export const ProfileForm: React.FC<Props> = ({ data }) => {
         icon: "✅",
       });
     } catch (error) {
+      console.log(`ProfileForm Error`, error);
       return toast.error("Error updating data", {
         icon: "❌",
       });

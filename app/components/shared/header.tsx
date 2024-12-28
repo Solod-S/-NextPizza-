@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/shared/lib/utils";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { Container } from "./container";
 import Link from "next/link";
@@ -9,6 +9,8 @@ import { SearchInput } from "./search-input";
 import { CartButton } from "./cart-button";
 import { ProfileButton } from "./profile-button";
 import { AuthModal } from "./modal";
+import { useSearchParams } from "next/navigation";
+import toast from "react-hot-toast";
 
 interface Props {
   hasSearch?: boolean;
@@ -21,6 +23,16 @@ export const Header: React.FC<Props> = ({
   hasSearch = true,
   hasCart = true,
 }) => {
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    if (searchParams.has("verified")) {
+      setTimeout(() => {
+        toast.success(`Email has been successfully activated.`);
+      }, 500);
+    }
+  }, []);
+
   const [openAuthModal, setOpenAuthModal] = useState(false);
   return (
     <header className={cn(" border-b", className)}>

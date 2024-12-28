@@ -17,11 +17,11 @@ model User {
   order Order[]
   VarificationCode VarificationCode?
 
-  fullName  String?
+  fullName  String
   email     String   @unique
   password  String
   role      UserRole @default(USER)
-  verified  DateTime 
+  verified  DateTime? 
   
   provider  String?
   providerId String?

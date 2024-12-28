@@ -9,7 +9,6 @@ import { TFormRegisterValues, formRegisterSchema } from "./schemas";
 import { FormInput } from "../../../form";
 import { Button } from "@/app/components/ui";
 import { registerUser } from "@/app/action";
-import { signIn } from "next-auth/react";
 
 interface Props {
   onClose?: VoidFunction;
@@ -38,24 +37,10 @@ export const RegisterForm: React.FC<Props> = ({
         password: data.password,
         verified: new Date(),
       });
-      // toast.error("Registration successful 📝. Confirm your email", {
-      //   icon: "✅",
-      // });
-      const resp = await signIn("credentials", {
-        ...data,
-        redirect: false,
+      toast.error("Registration successful 📝. Confirm your email", {
+        icon: "✅",
       });
-
-      if (!resp?.ok) {
-        throw Error();
-      }
-
-      toast.success(
-        "Registration successful📝. You have successfully logged into your account.",
-        {
-          icon: "✅",
-        }
-      );
+      //
 
       onClose?.();
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
