@@ -54,6 +54,7 @@ export const Stories: React.FC<Props> = ({ className }) => {
         {stories.length > 0 &&
           stories.map(story => (
             <img
+              alt={"story" + " " + story.id}
               key={story.id}
               onClick={() => onClickStory(story)}
               className="rounded-md cursor-pointer"

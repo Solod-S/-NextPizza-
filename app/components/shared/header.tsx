@@ -31,6 +31,7 @@ export const Header: React.FC<Props> = ({
         toast.success(`Email has been successfully activated.`);
       }, 500);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [openAuthModal, setOpenAuthModal] = useState(false);
