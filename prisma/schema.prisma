@@ -161,6 +161,7 @@ enum OrderStatus {
 
 
 
+
 model VarificationCode {
   id       Int      @id @default(autoincrement())
 
@@ -173,6 +174,26 @@ model VarificationCode {
 
   @@unique([userId, code])
   // код уникальный для конкретного пользователя (два одинаковых кода на 1 пользователя не допускается)
+}
+
+model Story {
+    id              Int    @id @default(autoincrement())
+    previewImageUrl String
+
+    items StoryItem[]
+
+    createdAt DateTime @default(now())
+}
+
+model StoryItem {
+    id Int @id @default(autoincrement())
+
+    storyId Int
+    story   Story @relation(fields: [storyId], references: [id])
+
+    sourceUrl String
+
+    createdAt DateTime @default(now())
 }
 
 
