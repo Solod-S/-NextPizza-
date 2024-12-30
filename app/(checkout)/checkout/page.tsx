@@ -44,7 +44,6 @@ export default function Checkout() {
     async function fetchUserInfo() {
       console.log(1);
       const data = (await Api.auth.getMe()) as User;
-      console.log(`data`, data);
 
       const [firstName, lastName] = data.fullName.split(" ");
       form.setValue("firstName", firstName);

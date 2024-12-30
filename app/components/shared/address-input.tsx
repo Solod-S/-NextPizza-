@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import Script from "next/script";
 import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
@@ -49,13 +48,6 @@ export const AddressInput: React.FC<Props> = ({ onChange }) => {
 
   return (
     <>
-      <Script
-        src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY}&libraries=places`}
-        strategy="beforeInteractive"
-        onError={e => {
-          console.error("Google Maps script failed to load:", e);
-        }}
-      />
       <div style={{ position: "relative" }}>
         <input
           type="text"

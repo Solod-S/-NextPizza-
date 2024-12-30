@@ -11,6 +11,7 @@ import { ProfileButton } from "./profile-button";
 import { AuthModal } from "./modal";
 import { useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
+import Script from "next/script";
 
 interface Props {
   hasSearch?: boolean;
@@ -31,12 +32,21 @@ export const Header: React.FC<Props> = ({
         toast.success(`Email has been successfully activated.`);
       }, 500);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [openAuthModal, setOpenAuthModal] = useState(false);
   return (
     <header className={cn(" border-b", className)}>
+      <Script
+        src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY}&libraries=places&loading=async`}
+        async
+        defer
+        strategy="beforeInteractive"
+        onError={e => {
+          console.error("Google Maps script failed to load:", e);
+        }}
+      />
       <Container className="flex items-center justify-between py-8">
         {/* left */}
         <Link href="/">
