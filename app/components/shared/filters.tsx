@@ -34,14 +34,14 @@ export const FIlters: React.FC<Props> = ({ className }) => {
           title="Pizza crust type"
           className="mb-5"
           defaultItems={[
-            { text: "thin", value: "1" },
-            { text: "thick", value: "2" },
+            { text: "traditional", value: "1" },
+            { text: "thin", value: "2" },
           ]}
           onClickCheckbox={filters.setPizzaTypes}
           selectedValues={filters.pizzaTypes}
           items={[
-            { text: "thin crust", value: "1" },
-            { text: "thick crust", value: "2" },
+            { text: "traditional crust", value: "1" },
+            { text: "thin crust", value: "2" },
           ]}
         />
 

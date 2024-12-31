@@ -120,54 +120,112 @@ export const INGREDIENTS = [
 export const PRODUCTS = [
   {
     name: "Roll with ham",
-    imageUrl:
-      "https://media.dodostatic.net/image/r:584x584/11EE7970259D888E98B6407EE6B994D9.avif",
+    imageUrl: "/breakfast/roll_with_hem.avif",
+    categoryId: 2,
+  },
+  {
+    name: "Super Meat Roll",
+    imageUrl: "/breakfast/super_meat_roll.avif",
+    categoryId: 2,
+  },
+  {
+    name: "Classic roll",
+    imageUrl: "/breakfast/classic_roll.avif",
+    categoryId: 2,
+  },
+  {
+    name: "Spicy roll",
+    imageUrl: "/breakfast/spicy_roll.avif",
+    categoryId: 2,
+  },
+  {
+    name: "Mushroom Starter",
+    imageUrl: "/breakfast/mushroom_starter.avif",
+    categoryId: 2,
+  },
+  {
+    name: "Cheese Starter",
+    imageUrl: "/breakfast/cheese_starter.avif",
+    categoryId: 2,
+  },
+  {
+    name: "Beef sandwich",
+    imageUrl: "/breakfast/beef_sandwich.avif",
+    categoryId: 2,
+  },
+  {
+    name: "Ham and cheese sandwich",
+    imageUrl: "/breakfast/ham_and_cheese_sandwich.avif",
+    categoryId: 2,
+  },
+  {
+    name: "Omelette with bacon",
+    imageUrl: "/breakfast/omelette_with_bacon.avif",
+    categoryId: 2,
+  },
+  {
+    name: "Cheese omelette",
+    imageUrl: "/breakfast/cheese_omelette.avif",
     categoryId: 2,
   },
   {
     name: "Cheesecakes with condensed milk",
-    imageUrl:
-      "https://media.dodostatic.net/image/r:584x584/11EF90613992FBC69C3DD4772681C783.avif",
+    imageUrl: "/snacks/cheesecakes_with_condensed_milk.avif",
     categoryId: 3,
   },
   {
     name: "Caesar salad",
-    imageUrl:
-      "https://media.dodostatic.net/image/r:584x584/11EF8D3BC9E84FB7B5CFB7F47C6FB334.avif",
+    imageUrl: "/snacks/caesar_salad.avif",
     categoryId: 3,
   },
   {
-    name: "Chocolate Milkshake",
-    imageUrl:
-      "https://media.dodostatic.net/image/r:292x292/11EE796FA24D1E919FA050D8BA21F8E9.avif",
+    name: "Potatoes from the oven",
+    imageUrl: "/snacks/potatoes_from_the_oven.avif",
+    categoryId: 3,
+  },
+  {
+    name: "Chicken pieces",
+    imageUrl: "/snacks/chicken_pieces.avif",
+    categoryId: 3,
+  },
+  {
+    name: "BBQ Chicken Wings",
+    imageUrl: "/snacks/bbq_chicken_wings.avif",
+    categoryId: 3,
+  },
+  {
+    name: "Lunchbox with chicken wings",
+    imageUrl: "/snacks/lunchbox_with_chicken_wings.avif",
+    categoryId: 3,
+  },
+  {
+    name: "Cappuccino",
+    imageUrl: "/cocktails/cappuccino.png",
+    categoryId: 4,
+  },
+  {
+    name: "Latte",
+    imageUrl: "/cocktails/latte.png",
+    categoryId: 4,
+  },
+  {
+    name: "Americano",
+    imageUrl: "/cocktails/americano.png",
+    categoryId: 4,
+  },
+  {
+    name: "Cold Tea",
+    imageUrl: "/cocktails/cold_tea.png",
     categoryId: 4,
   },
   {
     name: "Orange juice",
-    imageUrl:
-      "https://media.dodostatic.net/image/r:292x292/11EE7D61B223E75EB71498BCAA0D4A0D.avif",
+    imageUrl: "/drinks/juice.png",
+    categoryId: 5,
+  },
+  {
+    name: "Soda",
+    imageUrl: "/drinks/soda.png",
     categoryId: 5,
   },
 ];
-// .map((object, i) => ({ id: i, ...object }));
-
-// export const PIZZAS = [
-//   {
-//     name: "Pepperoni fresh",
-//     imageUrl:
-//       "https://media.dodostatic.net/image/r:233x233/11EE7D61304FAF5A98A6958F2BB2D260.webp",
-//     active: true,
-//   },
-//   {
-//     name: "Cheese",
-//     imageUrl:
-//       "https://media.dodostatic.net/image/r:233x233/11EE7D610CF7E265B7C72BE5AE757CA7.webp",
-//     active: true,
-//   },
-//   {
-//     name: "Chorizo ​​fresh",
-//     imageUrl:
-//       "https://media.dodostatic.net/image/r:584x584/11EE7D61706D472F9A5D71EB94149304.webp",
-//     active: true,
-//   },
-// ];
