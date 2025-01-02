@@ -29,8 +29,9 @@ export const ProductForm: React.FC<Props> = ({
         // так как нету вариаций стоимость одна и все просто
       }
       toast.success(`${product.name} added to cart successfully`);
-      _onSubmit?.();
+      // _onSubmit?.();
     } catch (error) {
+      _onSubmit?.();
       toast.error(`Failed to add product to cart`);
       console.error(`Error adding product:`, error);
     }
