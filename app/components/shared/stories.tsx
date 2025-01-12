@@ -1,7 +1,6 @@
 "use client";
 
 import { Api } from "@/shared/services/api-client";
-
 import React from "react";
 import { Container } from "./container";
 import { cn } from "@/shared/lib/utils";
@@ -26,6 +25,19 @@ export const Stories: React.FC<Props> = ({ className }) => {
 
     fetchStories();
   }, []);
+
+  React.useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden"; // Disable scroll
+    } else {
+      document.body.style.overflow = ""; // Enable scroll
+    }
+
+    // Cleanup on unmount
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
 
   const onClickStory = (story: IStory) => {
     setSelectedStory(story);
@@ -65,7 +77,7 @@ export const Stories: React.FC<Props> = ({ className }) => {
           ))}
 
         {open && (
-          <div className="absolute left-0 top-0 w-full h-full bg-black/80 flex items-center justify-center z-30">
+          <div className="absolute left-0 top-0 w-full h-full bg-black/80 flex items-center justify-center z-30 ">
             <div className="relative" style={{ width: 520 }}>
               <button
                 className="absolute -right-10 -top-5 z-30"
