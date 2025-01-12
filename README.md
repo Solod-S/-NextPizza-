@@ -65,8 +65,6 @@ This app is perfect for pizza lovers who want a fast, easy, and secure way to or
 
 - Resend: Resend is a service that simplifies sending transactional emails from applications. It offers an API for easily sending and managing emails, including features like templates, attachments, and email tracking, helping developers implement email functionality with minimal configuration.
 
-- Stripe: Stripe is a payment processing platform that enables businesses to accept online payments. It provides a secure and easy-to-use API for handling transactions, subscriptions, and invoices. Stripe supports various payment methods, including credit cards, digital wallets, and bank transfers, and integrates seamlessly with web and mobile applications.
-
 - Next.js Toploader: Next.js Toploader is a loading indicator for Next.js applications that appears while the page is loading. It provides a sleek and customizable progress bar, improving the user experience during page transitions or heavy requests by indicating that the application is processing.
 
 - React Insta Stories: React Insta Stories is a React component that enables developers to create Instagram-like stories within their applications. It allows users to upload images, videos, and interact with content in a visually engaging way, mimicking the popular story feature found in social media apps.
